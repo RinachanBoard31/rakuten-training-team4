@@ -6,7 +6,7 @@ import { TextField, Button, Box, Typography } from '@mui/material';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Login = () => {
-  const { isAuthenticated, login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
