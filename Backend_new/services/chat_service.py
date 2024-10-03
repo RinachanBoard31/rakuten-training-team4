@@ -7,9 +7,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+OPENAI_API_KEY="sk-4PIGpM6wSTRQ_FlclvDZDPIisTVVZT3RTu6kdWoNAhT3BlbkFJlgVRXuWQtx_0G-Wa8hhfTFatyzrLtf4zAJlvLYLngA"
+RAKUTEN_APPLICATION_ID="1026980619997350105"
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-RAKUTEN_APPLICATION_ID = os.getenv('RAKUTEN_APPLICATION_ID')
+# OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+# RAKUTEN_APPLICATION_ID = os.getenv('RAKUTEN_APPLICATION_ID')
 
 def search_rakuten_products(keyword, genreId=None, page=1, hits=10, minPrice=None, maxPrice=None):
 
@@ -138,6 +140,8 @@ def process_user_prompt(user_prompt):
 def chat(prompt):
     print("Rakuten Product Search with OpenAI Function Calling")
     print("---------------------------------------------------")
+    logger.info("prompt is " + prompt)
+
     user_prompt = prompt
     result = process_user_prompt(user_prompt)
 
@@ -156,6 +160,7 @@ def chat(prompt):
                 print(f"画像URL: {item_data.get('mediumImageUrls')[0].get('imageUrl')}")
             print("-" * 40)
         
-        result
+        return result
     else:
         print("データの取得に失敗しました。")
+        return None
