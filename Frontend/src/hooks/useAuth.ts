@@ -31,7 +31,7 @@ export const useAuth = () => {
     //     console.error(error);
     // }
 
-    const response = await Client.post('/login', { username, password });
+    const response = await Client.post('/items/login/', { username, password });
       if (response.status === 200) {
         setIsAuthenticated("1");
         localStorage.setItem('authFlag', JSON.stringify(response.data));
