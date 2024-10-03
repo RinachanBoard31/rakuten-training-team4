@@ -5,13 +5,16 @@ import { Box, TextField, InputAdornment, Typography, BackdropProps, Button } fro
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import PandaWithSpeechBubble from './PandaWithSpeechBubble';
 import { Item } from '../pages/Home';
+import { testitems } from '../entity/testItem';
+import { log } from 'console';
 
 interface ChatPandaAIProps {
   handlePandaClick: () => void;
-  setItems: React.Dispatch<React.SetStateAction<Item[]>>
+  setItems: React.Dispatch<React.SetStateAction<Item[]>>,
+  enableBackendAI?: boolean;
 }
 
-const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick,  setItems}) => {
+const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick,  setItems, enableBackendAI}) => {
   const [chatResponse, setChatResponse] = useState('こんにちは！探し物を教えてね！'); // 初期メッセージ
   const [prompt, setPrompt] = useState('');
   const [isAnswering, setIsAnswering] = useState(false);
@@ -27,6 +30,17 @@ const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick,  setItems})
   const handleSubmit = async (e: any) => {
     setChatResponse("ふむふむ，少しだけ待っててね！")
     e.preventDefault();
+
+    // In case you disable the backend AI, the test data will be used to display the cosmetics data automatically.
+    if (!enableBackendAI) {
+      const data = testitems;
+      const fetchedItems = data.map((itemWrapper: any) => itemWrapper.Item);
+      console.log(fetchedItems);
+      setItems(fetchedItems)
+      setChatResponse("I found test cosmetics data for you!");
+      return;
+    }
+
     try {
       const data = await chatSearchItems(prompt);
       console.log(data.Items);
