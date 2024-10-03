@@ -1,20 +1,31 @@
 // src/pages/Home.tsx
 import React, { useEffect, useState } from 'react';
-import { searchItems } from '../api/api.ts';
-import { Typography, Grid, Card, CardContent, CardMedia, Button, CircularProgress } from '@mui/material';
+import { searchItems } from '../api/api';
+import {
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  CircularProgress,
+  Box,
+} from '@mui/material';
 
 interface Item {
   itemName: string;
   itemPrice: number;
   itemUrl: string;
   mediumImageUrls: Array<{ imageUrl: string }>;
-  // 他の必要なフィールドを追加
+  smallImageUrls: Array<{ imageUrl: string }>;
+  // 他の必要なフィールドを追加する（後で）
 }
 
 const Home: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  console.log("items", items);  
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -35,30 +46,94 @@ const Home: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="80vh">
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {
-    return <Typography color="error">{error}</Typography>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="80vh">
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
   }
 
   return (
     <Grid container spacing={2}>
       {items.map((item, index) => (
-        <Grid item xs={12} sm={6} md={4} key={index}>
-          <Card>
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2} key={index}>
+          <Card
+            sx={{
+              height: '100%', // カードの高さをグリッドセルに合わせる
+              display: 'flex',
+              flexDirection: 'column',
+              transition: 'transform 0.2s',
+              '&:hover': {  
+                transform: 'scale(1.02)',
+              },
+            }}
+          >
             <CardMedia
               component="img"
-              height="140"
-              image={item.mediumImageUrls[0]?.imageUrl}
+              height="64"
+              image={item.smallImageUrls[0]?.imageUrl || 'https://via.placeholder.com/150'}
               alt={item.itemName}
+              sx={{
+                objectFit: 'cover', // 画像の切り取り方を調整
+              }}
             />
-            <CardContent>
-              <Typography variant="h6">{item.itemName}</Typography>
-              <Typography variant="body2" color="text.secondary">
+            <CardContent
+              sx={{
+                flexGrow: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                padding: 1, // パディングを小さく設定
+              }}
+            >
+              <Typography
+                variant="subtitle1" 
+                component="div"
+                gutterBottom
+                sx={{
+                  fontWeight: 'bold',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2, // 最大2行まで表示
+                  WebkitBoxOrient: 'vertical',
+                }}
+              >
+                {item.itemName}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: 'vertical',
+                  marginBottom: 'auto', 
+                  fontSize: '0.875rem', 
+                }}
+              >
                 ¥{item.itemPrice}
               </Typography>
-              <Button href={item.itemUrl} target="_blank" rel="noopener" variant="contained" color="primary">
+              <Button
+                href={item.itemUrl}
+                target="_blank"
+                rel="noopener"
+                variant="contained"
+                color="primary"
+                size="small"
+                sx={{
+                  marginTop: 'auto', 
+                }}
+              >
                 詳細を見る
               </Button>
             </CardContent>

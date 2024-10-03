@@ -16,6 +16,7 @@ interface RakutenResponse {
       itemPrice: number;
       itemUrl: string;
       mediumImageUrls: Array<{ imageUrl: string }>;
+      smallImageUrls: Array<{ imageUrl: string }>;
       // 他の必要なフィールドを追加
     };
   }>;
