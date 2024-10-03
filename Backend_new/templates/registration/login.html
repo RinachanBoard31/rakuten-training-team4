@@ -1,0 +1,20 @@
+<h2>Log in</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <label for="username">User name:</label>
+        <input type="text" name="username" id="username" required>
+    </div>
+    <div>
+        <label for="password">Pwd:</label>
+        <input type="password" name="password" id="password" required>
+    </div>
+    
+    <!-- 显示和传递 next 参数 -->
+    <p>Next: {{ request.GET.next }}</p>
+    <input type="hidden" name="next" value="{{ request.GET.next|default_if_none:'/' }}">
+    
+    <button type="submit">Log in</button>
+</form>
+
+<p>Don't have an account yet? <a href="{% url 'register' %}">Register</a></p>

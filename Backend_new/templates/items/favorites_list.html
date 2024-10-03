@@ -1,0 +1,18 @@
+<h2>My favorites</h2>
+
+<ul>
+    {% for item in favorites %}
+        <li>
+            <img src="{{ item.item_image_url }}" alt="{{ item.item_name }}">
+            <p>{{ item.item_name }}</p>
+            <p>价格: {{ item.item_price }} Yen</p>
+            <a href="{{ item.item_url }}" target="_blank">View product details</a>
+
+            <!-- Delete button by using POST method -->
+            <form method="POST" action="{% url 'delete_favorite' item.item_code %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
