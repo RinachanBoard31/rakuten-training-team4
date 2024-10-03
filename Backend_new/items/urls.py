@@ -18,5 +18,6 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('chatai/', views.chat_ai, name='chat_ai'),
     path('favorites/', views.get_favorite_items, name='favorites_list'),
+    path('favorites/delete/', views.delete_favorite_item, name='delete_favorite_item'),
 ]
 
