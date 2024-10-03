@@ -53,6 +53,10 @@ const Home: React.FC = () => {
     fetchItems();
   }, [keyword]);
 
+  useEffect(() => {
+    setKeyword('concealer');
+  }, []);
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
