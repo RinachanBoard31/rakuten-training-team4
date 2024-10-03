@@ -2,3 +2,4 @@ Django
 requests
 djangorestframework
 openai
+django-cors-headers
