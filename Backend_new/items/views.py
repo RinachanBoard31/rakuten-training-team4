@@ -114,6 +114,8 @@ from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import CustomUser  # Import your custom user model
+from accounts.serializer import CustomUserSerializer  # Import the serializer
+
 
 
 @api_view(['POST'])
@@ -123,7 +125,10 @@ def login_view(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         # ユーザーが存在する場合の処理
-        return Response({'message': 'Login successful'})
+        # return Response({'message': 'Login successful'})
+        # Serialize the user data
+        user_data = CustomUserSerializer(user).data
+        return Response(user_data)
     else:
         # ユーザーが存在しない場合の処理
         return Response({'message': 'Invalid credentials'}, status=400)

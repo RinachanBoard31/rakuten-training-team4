@@ -16,33 +16,14 @@ export const useAuth = () => {
   });
 
   const login = async (username: string, password: string) => {
-    // try {
-    //   const response = await Client.post<User>(
-    //     `/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-    //   );
-    //   if (response.status === 200) {
-    //     setIsAuthenticated("1");
-    //     localStorage.setItem('authFlag', JSON.stringify(response.data));
-    //     setUser(response.data);
-    //     localStorage.setItem('user', JSON.stringify(response.data));
-    //   }
-    // } catch (error) {
-    //     //　エラー処理
-    //     console.error(error);
-    // }
 
     const response = await Client.post('/items/login/', { username, password });
       if (response.status === 200) {
         setIsAuthenticated("1");
-        localStorage.setItem('authFlag', JSON.stringify(response.data));
+        localStorage.setItem('authFlag', "1");
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
       }
-
-    //  for testing ///////////
-    setIsAuthenticated("1");
-    localStorage.setItem('authFlag', "1");
-    setUser({ username: username, password });
-    localStorage.setItem('user', JSON.stringify({ username: username, password }));
-    //////////////////////////
   };
 
   const logout = () => {
