@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'friends', # Installed app friends
     'rest_framework',
     'items', # Installed app items
     'accounts.apps.AccountsConfig',
