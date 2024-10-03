@@ -63,7 +63,7 @@ const FavoriteList: React.FC = () => {
   return (
     <Box sx={{ padding: 4 }}>
       <Typography variant="h4" gutterBottom>
-        Your Favorite Items
+        Your Wishlist
       </Typography>
       {favoriteItems.length === 0 ? (
         <Typography>No favorites yet.</Typography>

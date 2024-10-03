@@ -91,10 +91,10 @@ export const fetchFavoriteItems = async (username: string) => {
       params: { username }
     });
     const favoriteItems = response.data.map((item: any) => ({
-      itemName: item.item_name,           // item_name を itemName にマッピング
-      itemPrice: item.item_price,         // item_price を itemPrice にマッピング
-      itemUrl: item.item_url,             // item_url を itemUrl にマッピング
-      imageUrl: item.item_image_url,      // item_image_url を imageUrl にマッピング
+      itemName: item.item_name,          
+      itemPrice: item.item_price,        
+      itemUrl: item.item_url,             
+      imageUrl: item.item_image_url,     
     }));
     console.log(favoriteItems);
     return favoriteItems;

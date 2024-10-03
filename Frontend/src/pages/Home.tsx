@@ -168,7 +168,7 @@ const Home: React.FC = () => {
                     color="primary"
                     size="small"
                   >
-                    Go Page
+                    View Product
                   </Button>
                   <IconButton onClick={() => toggleFavorite(item)}>
                     {favorites[item.itemUrl] ? (
