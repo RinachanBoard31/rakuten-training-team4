@@ -62,6 +62,29 @@ export const chatSearchItems = async (chat: string) => {
   }
 }
 
+export const saveFavoriteItem = async (username: string, item: any) => {
+  const item_code = "testCode";
+  const item_name = item.itemName;
+  const item_price = item.itemPrice;
+  const item_url = item.itemUrl;
+  const item_image_url = item.mediumImageUrls[0].imageUrl;
+
+  try {
+    const response = await axios.post(`${BACKEND_BASE_URL}/items/favorites/`, {
+      username,
+      item_code,
+      item_name,
+      item_price,
+      item_url,
+      item_image_url
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error saving favorite item:', error);
+    return null;
+  }
+};
+
 export const fetchFavoriteItems = async () => {
   // try {
   //   const response = await axios.get(`${BACKEND_BASE_URL}/items/list`);
