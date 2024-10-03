@@ -57,6 +57,15 @@ export const chatSearchItems = async (chat: string) => {
   }
 }
 
+export const chatMessageRequest = async (chat: string) => {
+  const params = chat;
+  const response = await axios.post(`${BACKEND_BASE_URL}/items/chatmessage/?prompt=${params}`);
+
+  if (response.status === 200) {
+    return response.data;
+  }
+}
+
 export const saveFavoriteItem = async (username: string, item: any) => {
   const item_code = "testCode";
   const item_name = item.itemName;

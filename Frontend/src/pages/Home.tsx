@@ -15,6 +15,7 @@ import {
   Snackbar,
   Alert,
   Tooltip,
+  Fade,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SearchBoxAndAI from '../components/SearchBoxAndAI';
@@ -34,6 +35,16 @@ const Home: React.FC = () => {
   const [keyword, setKeyword] = useState<string>('');
   const [favoriteAdded, setFavoriteAdded] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+  const [showTitle, setShowTitle] = useState<boolean>(true);
+
+  useEffect(() => {
+    // 10秒後にタイトルをフェードアウト
+    const timer = setTimeout(() => {
+      setShowTitle(false);
+    }, 10000); // 10000ミリ秒 = 10秒
+
+    return () => clearTimeout(timer); // クリーンアップ
+  }, []);
 
   // ユーザのwishlistを取得してお気に入り商品をデフォルトで反映
   useEffect(() => {
@@ -109,23 +120,25 @@ const Home: React.FC = () => {
 
   return (
     <Box sx={{ padding: 4 }}>
-      <Box sx={{ position: 'relative', width: '100%', padding: '20px 10px' }}>
+      <Fade in={showTitle} timeout={2000} unmountOnExit>
+        <Box sx={{ position: 'relative', width: '100%', padding: '20px 10px' }}>
         
-        <Typography
-          variant="h3"
-          component="div"
-          color="#c450a0"
-          sx={{
-            fontFamily: "Roboto, sans-serif",
-            background: "linear-gradient(to right, #ff7e5f, #feb47b)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            textAlign: 'center',
-          }}
-        >
-          Rakuten Z for 若者
-        </Typography>
-      </Box>
+          <Typography
+            variant="h3"
+            component="div"
+            color="#c450a0"
+            sx={{
+              fontFamily: "Roboto, sans-serif",
+              background: "linear-gradient(to right, #ff7e5f, #feb47b)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textAlign: 'center',
+            }}
+          >
+            Rakuten Z for 若者
+          </Typography>
+        </Box>
+      </Fade>
       <SearchBoxAndAI handleSearch={handleSearch} />
 
       {loading && (

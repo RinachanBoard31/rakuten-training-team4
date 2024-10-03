@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, TextField, InputAdornment, Tooltip, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import Chatai from './Chatai';
+import ChatPandaAI from './ChatPandaAI';
 
 interface SearchBoxAndAIProps {
   handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -10,15 +10,20 @@ interface SearchBoxAndAIProps {
 const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch }) => {
     const [enableAichat, setEnableAichat] = useState<boolean>(false);
     const handlePandaClick = () => {
-        setEnableAichat(true);
+        console.log('Panda clicked');
+        if (enableAichat) {
+            setEnableAichat(false);
+        } else {
+            setEnableAichat(true);
+        }
+       
     }
 
     return (enableAichat ? (
-        <Chatai />
+        <ChatPandaAI handlePandaClick={handlePandaClick}/>
     ) : (
     <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>
         <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>
-            {/* 画像アイコンとツールチップ */}
             <Tooltip
                 title="Young panda AIを利用してね！"
                 arrow
@@ -28,12 +33,12 @@ const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch }) => {
                 disableFocusListener
                 disableTouchListener
                 sx={{
-                marginRight: 2, // アイコンと検索欄の間にスペースを追加
+                marginRight: 2, 
                 }}
             >
                 <IconButton onClick={handlePandaClick}>
                 <img
-                    src="/assets/panda.jpg" // public/assets 配下の画像パス
+                    src="/assets/panda.jpg" 
                     alt="Panda Icon"
                     style={{
                     width: '80px',
