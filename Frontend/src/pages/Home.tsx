@@ -14,8 +14,10 @@ import {
   IconButton,
   Snackbar,
   Alert,
+  Tooltip,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import SearchBoxAndAI from '../components/SearchBoxAndAI';
 
 interface Item {
   itemName: string;
@@ -107,21 +109,24 @@ const Home: React.FC = () => {
 
   return (
     <Box sx={{ padding: 4 }}>
-      <form onSubmit={handleSearch}>
-        <TextField
-          name="keyword"
-          placeholder="商品を検索"
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
+      <Box sx={{ position: 'relative', width: '100%', padding: '20px 10px' }}>
+        
+        <Typography
+          variant="h3"
+          component="div"
+          color="#c450a0"
+          sx={{
+            fontFamily: "Roboto, sans-serif",
+            background: "linear-gradient(to right, #ff7e5f, #feb47b)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            textAlign: 'center',
           }}
-          sx={{ marginBottom: 4 }}
-        />
-      </form>
+        >
+          Rakuten Z for 若者
+        </Typography>
+      </Box>
+      <SearchBoxAndAI handleSearch={handleSearch} />
 
       {loading && (
         <Box display="flex" justifyContent="center" alignItems="center" height="80vh">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { chatSearchItems } from '../api/api'
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, InputAdornment, TextField, Typography } from '@mui/material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const Chatai = () => {
     const [chatResponse, setChatResponse] = useState([]);
@@ -27,10 +28,15 @@ const Chatai = () => {
             onChange={(e) => setPrompt(e.target.value)}
             fullWidth
             margin="normal"
+            InputProps={{
+                startAdornment: (
+                <InputAdornment position="start">
+                     <ChevronRightIcon/>
+                </InputAdornment>
+                ),
+            }}
             />
-            <Button type="submit" variant="contained" color="primary">
-                Submit
-            </Button>
+           
         </form>
     </Box>
   )
