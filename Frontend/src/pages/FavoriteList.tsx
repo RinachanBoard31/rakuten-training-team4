@@ -1,6 +1,5 @@
-// src/pages/FavoriteList.tsx
 import React, { useEffect, useState } from 'react';
-import { fetchFavoriteItems } from '../api/api';
+import { fetchFavoriteItems, deleteFavoriteItem, saveFavoriteItem } from '../api/api';
 import {
   Typography,
   Grid,
@@ -10,7 +9,11 @@ import {
   Button,
   CircularProgress,
   Box,
+  IconButton,
+  Snackbar,
+  Alert,
 } from '@mui/material';
+import { FavoriteBorder, Favorite } from '@mui/icons-material';
 
 interface FavoriteItem {
   itemName: string;
@@ -23,6 +26,8 @@ const FavoriteList: React.FC = () => {
   const [favoriteItems, setFavoriteItems] = useState<FavoriteItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+  const [favoriteRemoved, setFavoriteRemoved] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -33,7 +38,12 @@ const FavoriteList: React.FC = () => {
         const username = JSON.parse(user).username;
         const data = await fetchFavoriteItems(username);
         if (data) {
+          const favoriteMap: { [key: string]: boolean } = {};
+          data.forEach((item: any) => {
+            favoriteMap[item.itemUrl] = true;
+          });
           setFavoriteItems(data);
+          setFavorites(favoriteMap);
         } else {
           setError('Failed to fetch favorite items.');
         }
@@ -43,6 +53,28 @@ const FavoriteList: React.FC = () => {
 
     fetchFavorites();
   }, []);
+
+  const toggleFavorite = async (item: FavoriteItem) => {
+    setFavorites((prevFavorites) => ({
+      ...prevFavorites,
+      [item.itemUrl]: !prevFavorites[item.itemUrl],
+    }));
+
+    const user = localStorage.getItem('user');
+    if (user) {
+      const username = JSON.parse(user).username;
+      if (favorites[item.itemUrl]) {
+        // お気に入りから削除
+        await deleteFavoriteItem(username, item.itemUrl);
+        setFavoriteItems((prevItems) => prevItems.filter((i) => i.itemUrl !== item.itemUrl));
+      } else {
+        // お気に入りに追加
+        await saveFavoriteItem(username, item);
+      }
+    }
+
+    setFavoriteRemoved(true);
+  };
 
   if (loading) {
     return (
@@ -125,6 +157,13 @@ const FavoriteList: React.FC = () => {
                     >
                       View Product
                     </Button>
+                    <IconButton onClick={() => toggleFavorite(item)}>
+                      {favorites[item.itemUrl] ? (
+                        <Favorite sx={{ color: 'red' }} />
+                      ) : (
+                        <FavoriteBorder />
+                      )}
+                    </IconButton>
                   </Box>
                 </CardContent>
               </Card>
@@ -132,6 +171,15 @@ const FavoriteList: React.FC = () => {
           ))}
         </Grid>
       )}
+
+      <Snackbar
+        open={favoriteRemoved}
+        autoHideDuration={2000}
+        onClose={() => setFavoriteRemoved(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity="success">Wishlist Updated!</Alert>
+      </Snackbar>
     </Box>
   );
 };

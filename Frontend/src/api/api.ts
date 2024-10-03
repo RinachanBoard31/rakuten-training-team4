@@ -1,7 +1,4 @@
-import Client from "./client";
-import { AxiosResponse } from "axios";
 import axios from "axios";
-
 
 // Rakuten APIのエンドポイント
 const RAKUTEN_API_URL = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601";
@@ -100,4 +97,16 @@ export const fetchFavoriteItems = async (username: string) => {
     console.error('Error fetching favorite item:', error);
     return null;
   }
-}
+};
+
+export const deleteFavoriteItem = async (username: string, itemUrl: string) => {
+  try {
+    const response = await axios.delete(`${BACKEND_BASE_URL}/items/favorites/delete/`, {
+      params: { username, item_url: itemUrl }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error deleting favorite item:', error);
+    return null;
+  }
+};

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { searchItems, saveFavoriteItem } from '../api/api';
+import { searchItems, saveFavoriteItem, fetchFavoriteItems, deleteFavoriteItem } from '../api/api';
 import {
   Typography,
   Grid,
@@ -34,6 +34,27 @@ const Home: React.FC = () => {
   const [favoriteAdded, setFavoriteAdded] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
 
+  // ユーザのwishlistを取得してお気に入り商品をデフォルトで反映
+  useEffect(() => {
+    const fetchWishList = async () => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const username = JSON.parse(user).username;
+        const favoriteItems = await fetchFavoriteItems(username);
+        if (favoriteItems) {
+          const favoriteMap: { [key: string]: boolean } = {};
+          favoriteItems.forEach((item: any) => {
+            favoriteMap[item.itemUrl] = true;
+          });
+          setFavorites(favoriteMap);
+        }
+      }
+    };
+
+    fetchWishList();
+  }, []);
+
+  // 商品検索
   useEffect(() => {
     const fetchItems = async () => {
       if (!keyword) return;  // 検索キーワードがない場合は実行しない
@@ -72,10 +93,12 @@ const Home: React.FC = () => {
     }));
 
     // お気に入りが追加されたらAPIを呼び出す
-    if (!favorites[item.itemUrl]) {
-      const user = localStorage.getItem('user');
-      if (user) {
-        const username = JSON.parse(user).username;
+    const user = localStorage.getItem('user');
+    if (user) {
+      const username = JSON.parse(user).username;
+      if (favorites[item.itemUrl]) {
+        await deleteFavoriteItem(username, item.itemUrl);
+      } else {
         await saveFavoriteItem(username, item);
       }
     }

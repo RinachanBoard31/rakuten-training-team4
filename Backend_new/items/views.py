@@ -223,9 +223,9 @@ def get_favorite_items(request):
 @api_view(['DELETE'])
 def delete_favorite_item(request):
     username = request.GET.get('username')    # Get username
-    item_code = request.GET.get('item_code')  # Get item_code
+    item_url = request.GET.get('item_url')  # Get item_url
 
-    if not (username and item_code):
+    if not (username and item_url):
         return Response({'message': '用户名和产品代码是必需的'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
@@ -236,7 +236,7 @@ def delete_favorite_item(request):
 
     try:
         # Find and delete items
-        favorite_item = FavoriteItem.objects.get(user=user, item_code=item_code)
+        favorite_item = FavoriteItem.objects.get(user=user, item_url=item_url)
         favorite_item.delete()
         return Response({'message': 'Delete successfully'}, status=status.HTTP_204_NO_CONTENT)
     
