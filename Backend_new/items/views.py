@@ -50,7 +50,7 @@ def favorite_item(request):
                 item_url=item_url,
                 item_image_url=item_image_url
             )
-        return redirect('favorites_list')
+        return redirect('items:favorites_list')
 
 @login_required
 def favorites_list(request):
@@ -64,7 +64,7 @@ def delete_favorite(request, item_code):
     favorite = FavoriteItem.objects.filter(item_code=item_code, user=request.user).first()
     if favorite:
         favorite.delete()
-    return redirect('favorites_list')
+    return redirect('items:favorites_list')
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login

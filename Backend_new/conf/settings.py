@@ -167,7 +167,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'  # DIR of login that defined in items/urls.py
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/items/'
 
 
 # CORSによるフロントエンドとの通信を許可するために追加

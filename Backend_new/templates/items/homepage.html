@@ -4,7 +4,7 @@
 </form>
 
 {% if user.is_authenticated %}
-    <p>欢迎, {{ user.username }}！</p>
+    <p>Welcome, {{ user.username }}！</p>
     <a href="{% url 'items:favorites_list' %}">View my collection</a>
     
     <!-- Logout button by using POST method -->
@@ -23,7 +23,7 @@
             <li>
                 <img src="{{ item.Item.mediumImageUrls.0.imageUrl }}" alt="{{ item.Item.itemName }}">
                 <p>{{ item.Item.itemName }}</p>
-                <p>价格: {{ item.Item.itemPrice }} Yen</p>
+                <p>Price: {{ item.Item.itemPrice }} Yen</p>
                 <a href="{{ item.Item.itemUrl }}" target="_blank">View product details</a>
                 <form method="POST" action="{% url 'items:favorite_item' %}">
                     {% csrf_token %}
