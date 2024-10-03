@@ -28,8 +28,8 @@ export const useAuth = () => {
 
   const logout = () => {
     setIsAuthenticated(null);
+    localStorage.removeItem('authFlag');
     setUser(null);
-    localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('user');
   };
 

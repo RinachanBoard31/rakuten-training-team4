@@ -139,9 +139,7 @@ def register_view(request):
     if serializer.is_valid():
         user = serializer.save()  # Save user
         login(request, user)  # Automatically log the user in
-        return Response({
-            'message': 'User registered successfully',
-            'user': CustomUserSerializer(user).data  # Serialize and return user data
-        }, status=201)
+        user_data = CustomUserSerializer(user).data
+        return Response(user_data, status=201)
     else:
         return Response(serializer.errors, status=400)
