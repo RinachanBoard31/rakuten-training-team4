@@ -226,7 +226,7 @@ def delete_favorite_item(request):
     item_url = request.GET.get('item_url')  # Get item_url
 
     if not (username and item_url):
-        return Response({'message': '用户名和产品代码是必需的'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Both username and itemcode needed.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         # Check if users exist
