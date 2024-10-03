@@ -16,7 +16,8 @@ urlpatterns = [
     path("test/", views.test, name="test"), # for login test
     path('login/', views.login_view, name='login'), # for login on frontend
     path('register/', views.register_view, name='register'),
-
+    path('chatai', views.chat_ai, name='chat_ai'),
     path('favorites/', views.get_favorite_items, name='favorites_list'),
+    path('favorites/delete/', views.delete_favorite_item, name='delete_favorite_item'),
 ]
 

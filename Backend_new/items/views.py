@@ -144,6 +144,22 @@ def register_view(request):
     else:
         return Response(serializer.errors, status=400)
 
+from services import chat_service
+
+@api_view(['POST'])
+def chat_ai(request):
+    print("Running")
+    if request.method == "POST":
+        prompt = request.query_params.get('prompt', '')
+        response = chat_service.chat(prompt)
+        if response is not None:
+            return Response(response)
+        else:
+            return Response({"error": "somethign went wrong"}, status=500)
+    else:
+        return Response({"error": "somethign went wrong"}, status=400)
+    
+
 from rest_framework import status
 
 @api_view(['POST'])
@@ -188,9 +204,9 @@ def favorite_item(request):
     
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def get_favorite_items(request):
-    username = request.data.get('username')
+    username = request.GET.get('username') 
 
     # Check if user exists
     try:
@@ -199,7 +215,33 @@ def get_favorite_items(request):
         return Response({'message': 'User not found'}, status=404)
 
     # Get favorite list of users
-    favorite_items = FavoriteItem.objects.filter(user=user).values_list('item_url', flat=True)
+    favorite_items = FavoriteItem.objects.filter(user=user).values()
 
     # Return the list of favorites
     return Response({'productUrl': list(favorite_items)}, status=200)
+
+@api_view(['DELETE'])
+def delete_favorite_item(request):
+    username = request.GET.get('username')    # Get username
+    item_code = request.GET.get('item_code')  # Get item_code
+
+    if not (username and item_code):
+        return Response({'message': '用户名和产品代码是必需的'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Check if users exist
+        user = CustomUser.objects.get(username=username)
+    except CustomUser.DoesNotExist:
+        return Response({'message': 'Can not find users'}, status=status.HTTP_404_NOT_FOUND)
+
+    try:
+        # Find and delete items
+        favorite_item = FavoriteItem.objects.get(user=user, item_code=item_code)
+        favorite_item.delete()
+        return Response({'message': 'Delete successfully'}, status=status.HTTP_204_NO_CONTENT)
+    
+    except FavoriteItem.DoesNotExist:
+        return Response({'message': 'Can not find the items'}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
