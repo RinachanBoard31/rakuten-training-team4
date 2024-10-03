@@ -53,9 +53,7 @@ export const searchItems = async (keyword: string): Promise<RakutenResponse | nu
 
 export const chatSearchItems = async (chat: string) => {
   const params = chat;
-  const response = await axios.post(`${BACKEND_BASE_URL}/items/chatai`, {
-    'params': params
-  });
+  const response = await axios.post(`${BACKEND_BASE_URL}/items/chatai/?prompt=${params}`);
 
   if (response.status === 200) {
     return response.data;
