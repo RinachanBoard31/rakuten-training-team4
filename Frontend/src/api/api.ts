@@ -6,6 +6,8 @@ import axios from "axios";
 // Rakuten APIのエンドポイント
 const RAKUTEN_API_URL = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601";
 
+const BACKEND_BASE_URL = "http://localhost:8000";
+
 // APIキー（環境変数を使用することを推奨）
 const APPLICATION_ID = "1026980619997350105";
 
