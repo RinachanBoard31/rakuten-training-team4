@@ -61,3 +61,20 @@ export const chatSearchItems = async (chat: string) => {
     return response.data;
   }
 }
+
+export const fetchFavoriteItems = async () => {
+  // try {
+  //   const response = await axios.get(`${BACKEND_BASE_URL}/items/list`);
+  //   return response.data
+  // } catch (error) {
+  //   console.error('Error fetching data from Rakuten API:', error);
+  //   return null;
+  // }
+  const mock_data = {
+    "itemName": "test",
+    "itemPrice": 100,
+    "itemUrl": "https://www.rakuten.co.jp/",
+    "imageUrl": "https://placehold.jp/150x150.png"
+  };
+  return [mock_data];
+}

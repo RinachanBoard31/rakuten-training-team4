@@ -11,6 +11,7 @@ import theme from './theme'; // 作成したテーマをインポート
 import { AuthProvider, PrivateRoute } from './contexts/AuthContext';
 import Rakutenz from './pages/Rakutenz';
 import TestChat from './pages/TestChat';
+import FavoriteList from './pages/FavoriteList';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/rakutenz" element={<PrivateRoute element={<Rakutenz />} />} />
                 <Route path="/testchat" element={<PrivateRoute element={<TestChat />} />} />
+                <Route path="/favorites" element={<PrivateRoute element={<FavoriteList />} />} />
               </Routes>
             </Box>
         </Router>

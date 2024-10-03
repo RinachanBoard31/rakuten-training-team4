@@ -116,7 +116,7 @@ const Home: React.FC = () => {
               <CardMedia
                 component="img"
                 height="150"
-                image={item.smallImageUrls[0]?.imageUrl || 'https://via.placeholder.com/150'}
+                image={item.mediumImageUrls[0]?.imageUrl || 'https://via.placeholder.com/150'}
                 alt={item.itemName}
                 sx={{ objectFit: 'cover' }}
               />
