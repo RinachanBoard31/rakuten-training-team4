@@ -145,17 +145,20 @@ def register_view(request):
         return Response(serializer.errors, status=400)
 
 from services import chat_service
+
 @api_view(['POST'])
 def chat_ai(request):
+    print("Running")
     if request.method == "POST":
         prompt = request.query_params.get('prompt', '')
-        response = chat_service(prompt)
+        response = chat_service.chat(prompt)
         if response is not None:
-            return Response({response})
+            return Response(response)
         else:
             return Response({"error": "somethign went wrong"}, status=500)
     else:
         return Response({"error": "somethign went wrong"}, status=400)
+    
 
 from rest_framework import status
 
