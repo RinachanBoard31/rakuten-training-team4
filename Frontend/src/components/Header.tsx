@@ -1,5 +1,5 @@
 // src/components/Header.tsx
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -7,11 +7,12 @@ import {
   Box,
   Typography,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import logo from '/assets/rakutenz.jpg'; // 相対パスに修正
+import { AuthContext } from '../contexts/AuthContext';
 
 // ロゴコンテナのスタイリング
 const LogoContainer = styled(Box)(({ theme }) => ({
@@ -30,6 +31,14 @@ const Logo = styled('img')({
 });
 
 const Header = () => {
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/home');
+  };
+
   return (
     <AppBar
       position="static"
@@ -68,9 +77,17 @@ const Header = () => {
         </Link>
         <Box sx={{ flexGrow: 1 }} />
         {/* ナビゲーションボタン */}
-        <Button color="inherit" component={Link} to="/login" startIcon={<HomeIcon />}>
-          Login
-        </Button>
+        { isAuthenticated ? ( 
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
+        ) : (
+            <Button color="inherit" component={Link} to="/login" startIcon={<HomeIcon />}>
+              Login
+            </Button>
+          )  
+        }
+        
         <Button color="inherit" component={Link} to="/about" startIcon={<InfoIcon />}>
           About
         </Button>

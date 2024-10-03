@@ -3,9 +3,11 @@
 import React, { useState, useContext } from 'react';
 import { Navigate, useNavigate} from 'react-router-dom';
 import { TextField, Button, Box } from '@mui/material';
-import {login} from '../api/api';
+import { AuthContext } from '../contexts/AuthContext';
+
 
 const Login = () => {
+  const {isAuthenticated, login} = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();

@@ -7,21 +7,26 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Header from './components/Header';
 import theme from './theme'; // 作成したテーマをインポート
+import { AuthProvider, PrivateRoute } from './contexts/AuthContext';
+import Rakutenz from './pages/Rakutenz';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        
-          <Header />
-          <Box sx={{ flex: 1, padding: 2 }}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-          </Box>
-      </Router>
+      <AuthProvider>
+        <Router>
+          
+            <Header />
+            <Box sx={{ flex: 1, padding: 2 }}>
+              <Routes>
+                <Route path="/home" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/rakutenz" element={<PrivateRoute element={<Rakutenz />} />} />
+              </Routes>
+            </Box>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
