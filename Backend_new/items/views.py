@@ -188,9 +188,9 @@ def favorite_item(request):
     
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def get_favorite_items(request):
-    username = request.data.get('username')
+    username = request.GET.get('username') 
 
     # Check if user exists
     try:
@@ -199,7 +199,7 @@ def get_favorite_items(request):
         return Response({'message': 'User not found'}, status=404)
 
     # Get favorite list of users
-    favorite_items = FavoriteItem.objects.filter(user=user).values_list('item_url', flat=True)
+    favorite_items = FavoriteItem.objects.filter(user=user).values()
 
     # Return the list of favorites
     return Response({'productUrl': list(favorite_items)}, status=200)
