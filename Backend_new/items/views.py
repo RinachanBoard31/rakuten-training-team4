@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import FavoriteItem
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 APPLICATION_ID = '1078924502039744887' # Rakuten id of Jiawei
 
@@ -78,3 +81,31 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})
+
+@csrf_exempt
+def test(request):
+  test = [
+    {
+      "id": 1,
+      "date": "2022-10-01",
+      "content": "Test"
+    },
+    # {
+    #   "id": 2,
+    #   "date": "2022-10-02",
+    #   "content": "[プロジェクト]「プロジェクト名2」デプロイされました。"
+    # },
+    # {
+    #   "id": 3,
+    #   "date": "2022-10-03",
+    #   "content": "[プロジェクト]「プロジェクト名3」デプロイされました。"
+    # },
+    # {
+    #   "id": 4,
+    #   "date": "2022-10-04",
+    #   "content": "[プロジェクト]「プロジェクト名4」デプロイされました。"
+    # },
+      
+  ]
+
+  return JsonResponse(test, safe=False)
