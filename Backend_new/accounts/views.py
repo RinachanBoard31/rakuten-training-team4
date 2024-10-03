@@ -21,7 +21,7 @@ class CustomAccountCreationView(generic.CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm
     template_name = 'accounts/accounts_create.html'
-    success_url = '/recipeapp/'
+    success_url = ''
 
 class Login(LoginView):
     template_name = 'accounts/login.html'
