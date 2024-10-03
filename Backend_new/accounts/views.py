@@ -8,6 +8,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.base import TemplateView
 from .forms import CustomUserCreationForm
 from .models import CustomUser
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -21,10 +22,11 @@ class CustomAccountCreationView(generic.CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm
     template_name = 'accounts/accounts_create.html'
-    success_url = ''
+    success_url = reverse_lazy('items:search_items')
 
 class Login(LoginView):
     template_name = 'accounts/login.html'
+
 
 class Logout(LogoutView):
     next_page = '/accounts/login'

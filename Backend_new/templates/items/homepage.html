@@ -1,19 +1,19 @@
-<form method="GET" action="{% url 'search_items' %}">
+<form method="GET" action="{% url 'items:search_items' %}">
     <input type="text" name="keyword" placeholder="Search product" value="{{ keyword }}">
     <button type="submit">Search</button>
 </form>
 
 {% if user.is_authenticated %}
     <p>欢迎, {{ user.username }}！</p>
-    <a href="{% url 'favorites_list' %}">View my collection</a>
+    <a href="{% url 'items:favorites_list' %}">View my collection</a>
     
     <!-- Logout button by using POST method -->
-    <form method="POST" action="{% url 'logout' %}">
+    <form method="POST" action="{% url 'items:logout' %}">
         {% csrf_token %}
         <button type="submit">Log out</button>
     </form>
 {% else %}
-    <a href="{% url 'login' %}">Log in</a> | <a href="{% url 'register' %}">Register</a>
+    <a href="{% url 'items:login' %}">Log in</a> | <a href="{% url 'items:register' %}">Register</a>
 {% endif %}
 
 {% if items %}
@@ -25,7 +25,7 @@
                 <p>{{ item.Item.itemName }}</p>
                 <p>价格: {{ item.Item.itemPrice }} Yen</p>
                 <a href="{{ item.Item.itemUrl }}" target="_blank">View product details</a>
-                <form method="POST" action="{% url 'favorite_item' %}">
+                <form method="POST" action="{% url 'items:favorite_item' %}">
                     {% csrf_token %}
                     <input type="hidden" name="item_code" value="{{ item.Item.itemCode }}">
                     <input type="hidden" name="item_name" value="{{ item.Item.itemName }}">

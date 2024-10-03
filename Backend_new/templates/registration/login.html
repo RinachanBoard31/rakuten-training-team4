@@ -11,10 +11,10 @@
     </div>
     
     <!-- 显示和传递 next 参数 -->
-    <p>Next: {{ request.GET.next }}</p>
+    <!-- <p>Next: {{ request.GET.next }}</p> -->
     <input type="hidden" name="next" value="{{ request.GET.next|default_if_none:'/' }}">
     
     <button type="submit">Log in</button>
 </form>
 
-<p>Don't have an account yet? <a href="{% url 'register' %}">Register</a></p>
+<p>Don't have an account yet? <a href="{% url 'items:register' %}">Register</a></p>

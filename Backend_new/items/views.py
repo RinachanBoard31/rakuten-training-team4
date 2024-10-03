@@ -68,18 +68,18 @@ def delete_favorite(request, item_code):
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from .forms import UserRegisterForm
+from .forms import CustomUserCreationForm
 
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()  # Save user
             login(request, user)  # Automatically login users
-            return redirect('search_items')  # Redirects to the Homepage
+            return redirect('items:search_items')  # Redirects to the Homepage
     else:
-        form = UserRegisterForm()
+        form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
 @csrf_exempt
@@ -109,3 +109,21 @@ def test(request):
   ]
 
   return JsonResponse(test, safe=False)
+
+from django.contrib.auth import authenticate
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import CustomUser  # Import your custom user model
+
+
+@api_view(['POST'])
+def login_view(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        # ユーザーが存在する場合の処理
+        return Response({'message': 'Login successful'})
+    else:
+        # ユーザーが存在しない場合の処理
+        return Response({'message': 'Invalid credentials'}, status=400)

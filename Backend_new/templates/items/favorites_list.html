@@ -9,7 +9,7 @@
             <a href="{{ item.item_url }}" target="_blank">View product details</a>
 
             <!-- Delete button by using POST method -->
-            <form method="POST" action="{% url 'delete_favorite' item.item_code %}">
+            <form method="POST" action="{% url 'items:delete_favorite' item.item_code %}">
                 {% csrf_token %}
                 <button type="submit">Delete</button>
             </form>
