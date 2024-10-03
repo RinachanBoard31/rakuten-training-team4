@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Box, TextField, InputAdornment, Tooltip, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ChatPandaAI from './ChatPandaAI';
+import { Item } from '../pages/Home';
 
 interface SearchBoxAndAIProps {
   handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;
+  setItems: React.Dispatch<React.SetStateAction<Item[]>>
 }
 
-const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch }) => {
+const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch , setItems}) => {
     const [enableAichat, setEnableAichat] = useState<boolean>(false);
     const handlePandaClick = () => {
         console.log('Panda clicked');
@@ -20,7 +22,7 @@ const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch }) => {
     }
 
     return (enableAichat ? (
-        <ChatPandaAI handlePandaClick={handlePandaClick}/>
+        <ChatPandaAI handlePandaClick={handlePandaClick} setItems={setItems}/>
     ) : (
     <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>
         <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>

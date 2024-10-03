@@ -4,12 +4,14 @@ import { chatMessageRequest, chatSearchItems } from '../api/api';
 import { Box, TextField, InputAdornment, Typography, BackdropProps, Button } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import PandaWithSpeechBubble from './PandaWithSpeechBubble';
+import { Item } from '../pages/Home';
 
 interface ChatPandaAIProps {
   handlePandaClick: () => void;
+  setItems: React.Dispatch<React.SetStateAction<Item[]>>
 }
 
-const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick }) => {
+const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick,  setItems}) => {
   const [chatResponse, setChatResponse] = useState('こんにちは！探し物を教えてね！'); // 初期メッセージ
   const [prompt, setPrompt] = useState('');
   const [isAnswering, setIsAnswering] = useState(false);
@@ -26,7 +28,13 @@ const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick }) => {
     setChatResponse("ふむふむ，少しだけ待っててね！")
     e.preventDefault();
     try {
-      const response = await chatSearchItems(prompt);
+      const data = await chatSearchItems(prompt);
+      console.log(data.Items);
+      if (data) {
+        const fetchedItems = data.Items.map((itemWrapper: any) => itemWrapper.Item);
+        setItems(fetchedItems);
+      }
+
       const message = await chatMessageRequest(prompt);
       if(message.message) {
         setChatResponse(message.message); 

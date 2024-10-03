@@ -20,7 +20,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import SearchBoxAndAI from '../components/SearchBoxAndAI';
 
-interface Item {
+export interface Item {
   itemName: string;
   itemPrice: number;
   itemUrl: string;
@@ -139,7 +139,7 @@ const Home: React.FC = () => {
           </Typography>
         </Box>
       </Fade>
-      <SearchBoxAndAI handleSearch={handleSearch} />
+      <SearchBoxAndAI handleSearch={handleSearch} setItems={setItems}/>
 
       {loading && (
         <Box display="flex" justifyContent="center" alignItems="center" height="80vh">
