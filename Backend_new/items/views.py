@@ -114,7 +114,7 @@ from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import CustomUser  # Import your custom user model
-from accounts.serializer import CustomUserSerializer  # Import the serializer
+from accounts.serializer import CustomUserSerializer, CustomUserRegistrationSerializer  # Import the serializer
 
 
 
@@ -132,3 +132,18 @@ def login_view(request):
     else:
         # ユーザーが存在しない場合の処理
         return Response({'message': 'Invalid credentials'}, status=400)
+
+
+@api_view(['POST'])
+def register_view(request):
+    serializer = CustomUserRegistrationSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        user = serializer.save()  # Save user
+        login(request, user)  # Automatically log the user in
+        return Response({
+            'message': 'User registered successfully',
+            'user': CustomUserSerializer(user).data  # Serialize and return user data
+        }, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
