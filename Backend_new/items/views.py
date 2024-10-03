@@ -163,7 +163,7 @@ def chat_ai(request):
 from rest_framework import status
 
 @api_view(['POST'])
-def favorite_item(request):
+def post_favorite_item(request):
     # Get information 
     username = request.data.get('username')
     item_code = request.data.get('item_code')
@@ -181,7 +181,7 @@ def favorite_item(request):
         user = CustomUser.objects.get(username=username)
 
         # Check if favorited
-        if FavoriteItem.objects.filter(user=user, item_code=item_code).exists():
+        if FavoriteItem.objects.filter(user=user, item_name=item_name).exists():
             return Response({'message': 'Item already added to favorites'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Save favorite
@@ -218,7 +218,7 @@ def get_favorite_items(request):
     favorite_items = FavoriteItem.objects.filter(user=user).values()
 
     # Return the list of favorites
-    return Response({'productUrl': list(favorite_items)}, status=200)
+    return Response(favorite_items, status=200)
 
 @api_view(['DELETE'])
 def delete_favorite_item(request):

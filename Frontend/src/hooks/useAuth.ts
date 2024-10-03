@@ -16,7 +16,6 @@ export const useAuth = () => {
   });
 
   const login = async (username: string, password: string) => {
-
     const response = await Client.post('/items/login/', { username, password });
       if (response.status === 200) {
         setIsAuthenticated("1");
