@@ -13,7 +13,6 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { FavoriteBorder, Favorite } from '@mui/icons-material';
 
 interface FavoriteItem {
   itemName: string;
@@ -158,11 +157,11 @@ const FavoriteList: React.FC = () => {
                       View Product
                     </Button>
                     <IconButton onClick={() => toggleFavorite(item)}>
-                      {favorites[item.itemUrl] ? (
-                        <Favorite sx={{ color: 'red' }} />
-                      ) : (
-                        <FavoriteBorder />
-                      )}
+                      <img
+                        src={favorites[item.itemUrl] ? '/images/okaimono_panda_like_icon.png' : '/images/okaimono_panda_unlike_icon.png'}
+                        alt="Favorite"
+                        style={{ width: 36, height: 30 }}
+                      />
                     </IconButton>
                   </Box>
                 </CardContent>
