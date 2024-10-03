@@ -28,13 +28,17 @@ const FavoriteList: React.FC = () => {
     const fetchFavorites = async () => {
       setLoading(true);
       setError(null);
-      const data = await fetchFavoriteItems();
-      if (data) {
-        setFavoriteItems(data);
-      } else {
-        setError('Failed to fetch favorite items.');
+      const user = localStorage.getItem('user');
+      if (user) {
+        const username = JSON.parse(user).username;
+        const data = await fetchFavoriteItems(username);
+        if (data) {
+          setFavoriteItems(data);
+        } else {
+          setError('Failed to fetch favorite items.');
+        }
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchFavorites();

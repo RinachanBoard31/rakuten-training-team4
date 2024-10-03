@@ -70,7 +70,7 @@ export const saveFavoriteItem = async (username: string, item: any) => {
   const item_image_url = item.mediumImageUrls[0].imageUrl;
 
   try {
-    const response = await axios.post(`${BACKEND_BASE_URL}/items/favorites/`, {
+    const response = await axios.post(`${BACKEND_BASE_URL}/items/favorite/`, {
       username,
       item_code,
       item_name,
@@ -85,19 +85,21 @@ export const saveFavoriteItem = async (username: string, item: any) => {
   }
 };
 
-export const fetchFavoriteItems = async () => {
-  // try {
-  //   const response = await axios.get(`${BACKEND_BASE_URL}/items/list`);
-  //   return response.data
-  // } catch (error) {
-  //   console.error('Error fetching data from Rakuten API:', error);
-  //   return null;
-  // }
-  const mock_data = {
-    "itemName": "test",
-    "itemPrice": 100,
-    "itemUrl": "https://www.rakuten.co.jp/",
-    "imageUrl": "https://placehold.jp/150x150.png"
-  };
-  return [mock_data];
+export const fetchFavoriteItems = async (username: string) => {
+  try {
+    const response = await axios.get(`${BACKEND_BASE_URL}/items/favorites/`, {
+      params: { username }
+    });
+    const favoriteItems = response.data.map((item: any) => ({
+      itemName: item.item_name,           // item_name を itemName にマッピング
+      itemPrice: item.item_price,         // item_price を itemPrice にマッピング
+      itemUrl: item.item_url,             // item_url を itemUrl にマッピング
+      imageUrl: item.item_image_url,      // item_image_url を imageUrl にマッピング
+    }));
+    console.log(favoriteItems);
+    return favoriteItems;
+  } catch (error) {
+    console.error('Error fetching favorite item:', error);
+    return null;
+  }
 }
