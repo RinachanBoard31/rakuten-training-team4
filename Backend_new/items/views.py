@@ -71,16 +71,16 @@ from django.contrib.auth import login
 from .forms import CustomUserCreationForm
 
 
-def register(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()  # Save user
-            login(request, user)  # Automatically login users
-            return redirect('items:search_items')  # Redirects to the Homepage
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+# def register(request):
+#     if request.method == 'POST':
+#         form = CustomUserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()  # Save user
+#             login(request, user)  # Automatically login users
+#             return redirect('items:search_items')  # Redirects to the Homepage
+#     else:
+#         form = CustomUserCreationForm()
+#     return render(request, 'registration/register.html', {'form': form})
 
 @csrf_exempt
 def test(request):
@@ -125,8 +125,6 @@ def login_view(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         # ユーザーが存在する場合の処理
-        # return Response({'message': 'Login successful'})
-        # Serialize the user data
         user_data = CustomUserSerializer(user).data
         return Response(user_data)
     else:
@@ -144,6 +142,6 @@ def register_view(request):
         return Response({
             'message': 'User registered successfully',
             'user': CustomUserSerializer(user).data  # Serialize and return user data
-        }, status=status.HTTP_201_CREATED)
+        }, status=201)
     else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=400)
