@@ -30,27 +30,27 @@ def search_items(request):
 
 
 
-@login_required
-def favorite_item(request):
-    if request.method == 'POST':
-        item_code = request.POST.get('item_code')
-        item_name = request.POST.get('item_name')
-        item_price = request.POST.get('item_price')
-        item_url = request.POST.get('item_url')
-        item_image_url = request.POST.get('item_image_url')
+# @login_required
+# def favorite_item(request):
+#     if request.method == 'POST':
+#         item_code = request.POST.get('item_code')
+#         item_name = request.POST.get('item_name')
+#         item_price = request.POST.get('item_price')
+#         item_url = request.POST.get('item_url')
+#         item_image_url = request.POST.get('item_image_url')
 
-        # Check if item is starred
-        if not FavoriteItem.objects.filter(item_code=item_code, user=request.user).exists():
-            # Create and save favorite products, and associate them with the currently logged in user
-            FavoriteItem.objects.create(
-                user=request.user,
-                item_code=item_code,
-                item_name=item_name,
-                item_price=item_price,
-                item_url=item_url,
-                item_image_url=item_image_url
-            )
-        return redirect('items:favorites_list')
+#         # Check if item is starred
+#         if not FavoriteItem.objects.filter(item_code=item_code, user=request.user).exists():
+#             # Create and save favorite products, and associate them with the currently logged in user
+#             FavoriteItem.objects.create(
+#                 user=request.user,
+#                 item_code=item_code,
+#                 item_name=item_name,
+#                 item_price=item_price,
+#                 item_url=item_url,
+#                 item_image_url=item_image_url
+#             )
+#         return redirect('items:favorites_list')
 
 @login_required
 def favorites_list(request):
@@ -143,3 +143,63 @@ def register_view(request):
         return Response(user_data, status=201)
     else:
         return Response(serializer.errors, status=400)
+
+from rest_framework import status
+
+@api_view(['POST'])
+def favorite_item(request):
+    # Get information 
+    username = request.data.get('username')
+    item_code = request.data.get('item_code')
+    item_name = request.data.get('item_name')
+    item_price = request.data.get('item_price')
+    item_url = request.data.get('item_url')
+    item_image_url = request.data.get('item_image_url')
+
+    # Check if information satisfy
+    if not (username and item_code and item_name and item_price and item_url and item_image_url):
+        return Response({'message': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Get username
+        user = CustomUser.objects.get(username=username)
+
+        # Check if favorited
+        if FavoriteItem.objects.filter(user=user, item_code=item_code).exists():
+            return Response({'message': 'Item already added to favorites'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Save favorite
+        FavoriteItem.objects.create(
+            user=user,
+            item_code=item_code,
+            item_name=item_name,
+            item_price=item_price,
+            item_url=item_url,
+            item_image_url=item_image_url
+        )
+
+        return Response({'message': 'Item added to favorites successfully'}, status=status.HTTP_201_CREATED)
+    
+    except CustomUser.DoesNotExist:
+        return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    except Exception as e:
+        return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+
+
+@api_view(['POST'])
+def get_favorite_items(request):
+    username = request.data.get('username')
+
+    # Check if user exists
+    try:
+        user = CustomUser.objects.get(username=username)
+    except CustomUser.DoesNotExist:
+        return Response({'message': 'User not found'}, status=404)
+
+    # Get favorite list of users
+    favorite_items = FavoriteItem.objects.filter(user=user).values_list('item_url', flat=True)
+
+    # Return the list of favorites
+    return Response({'productUrl': list(favorite_items)}, status=200)
