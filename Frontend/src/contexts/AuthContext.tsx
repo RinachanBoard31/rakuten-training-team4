@@ -8,6 +8,7 @@ interface AuthContextProps {
     user: User | null;
     login: (username: string, password: string) => Promise<void>;
     logout: () => void;
+    register: (username: string, email: string, age: number, password: string) => Promise<void>;
   }
 
 
@@ -16,6 +17,7 @@ export const AuthContext = createContext<AuthContextProps>({
     user: null,
     login: async () => {},
     logout: () => {},
+    register: async () => {},
 })
 
 interface AuthProviderProps {

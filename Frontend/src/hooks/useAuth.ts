@@ -28,9 +28,24 @@ export const useAuth = () => {
 
   const logout = () => {
     setIsAuthenticated(null);
+    localStorage.removeItem('authFlag');
     setUser(null);
-    localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('user');
+  };
+
+  const register = async (username: string, email: string, age: number, password: string) => {
+    try {
+      const response = await Client.post('/items/register/', { username, email, age, password });
+      if (response.status === 201) {
+        setIsAuthenticated("1");
+        localStorage.setItem('authFlag', "1");
+        setUser(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
+      }
+    } catch (error) {
+      console.error("Error during registeration: ", error);
+      throw error;
+    }
   };
 
     useEffect(() => {
@@ -41,5 +56,5 @@ export const useAuth = () => {
         }
     }, [isAuthenticated]);
 
-  return { isAuthenticated, user, login, logout };
+  return { isAuthenticated, user, login, logout, register };
 };

@@ -5,10 +5,11 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Class to create both regular and super users
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, age, email, password=None):
         user = self.model(
             username=username,
             email=self.normalize_email(email),
+            age=age,
             password=password
         )
         user.set_password(password)
