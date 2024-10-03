@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -38,6 +38,7 @@ const Header = () => {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [username, setUsername] = React.useState<string>('');
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -57,6 +58,12 @@ const Header = () => {
     navigate('/favorites');
     handleClose();
   };
+
+  useEffect(() => {
+    if (user) {
+      setUsername(user.username);
+    }
+  }, [user]);
 
   return (
     <AppBar
@@ -106,7 +113,7 @@ const Header = () => {
                 variant="body1"
                 sx={{ marginRight: 2, display: { xs: 'none', sm: 'block' } }}
               >
-              {user?.username}
+              {username}
               </Typography>
             </IconButton>
             <Menu
