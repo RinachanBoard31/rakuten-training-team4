@@ -60,6 +60,7 @@ export const chatSearchItems = async (chat: string) => {
 export const chatMessageRequest = async (chat: string) => {
   const params = chat;
   const response = await axios.post(`${BACKEND_BASE_URL}/items/chatmessage/?prompt=${params}`);
+  console.log( response.data);
 
   if (response.status === 200) {
     return response.data;

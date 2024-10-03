@@ -137,7 +137,7 @@ def process_user_prompt(user_prompt):
 
     return None
 
-def chat(prompt):
+def function_calling(prompt):
     print("Rakuten Product Search with OpenAI Function Calling")
     print("---------------------------------------------------")
     logger.info("prompt is " + prompt)
@@ -163,4 +163,30 @@ def chat(prompt):
         return result
     else:
         print("データの取得に失敗しました。")
+        return None
+    
+
+def chat_bot(prompt):
+    print("Rakuten Product Search with OpenAI Chatbot")
+    print("---------------------------------------------------")
+    logger.info("prompt is " + prompt)
+
+    openai.api_key = OPENAI_API_KEY
+
+    response = openai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "あなたは可愛いキャラクターです．\
+             ユーザは欲しい商品を検索したいと思っています．それに対して気が利く可愛いコメントを返してください \
+             コメントは短く端的でお願いします．"
+             },
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    print(response)
+
+    if response.choices[0].finish_reason == 'completed' or response.choices[0].finish_reason == 'stop':
+        return response.choices[0].message.content
+    else:
         return None

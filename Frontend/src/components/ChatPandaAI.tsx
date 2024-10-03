@@ -29,7 +29,7 @@ const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick }) => {
       const response = await chatSearchItems(prompt);
       const message = await chatMessageRequest(prompt);
       if(message.message) {
-        setChatResponse("乾燥肌には気をつけてね！"); 
+        setChatResponse(message.message); 
       } else {
         setChatResponse("ごめんね、ぼくまだ7歳だからわからないことあるんだ．．．");
       }

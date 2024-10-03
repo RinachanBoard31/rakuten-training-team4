@@ -151,13 +151,32 @@ def chat_ai(request):
     print("Running")
     if request.method == "POST":
         prompt = request.query_params.get('prompt', '')
-        response = chat_service.chat(prompt)
+        response = chat_service.function_calling(prompt)
         if response is not None:
             return Response(response)
         else:
             return Response({"error": "somethign went wrong"}, status=500)
     else:
         return Response({"error": "somethign went wrong"}, status=400)
+    
+
+@api_view(['POST'])
+def chat_message(request):
+    if request.method == "POST":
+        prompt = request.query_params.get('prompt', '')
+
+        if len(prompt) > 50:
+            return Response({"message": "ごめんね、ぼくまだ7歳だからわからないことあるんだ．．．"}, status=400)
+        
+        response = chat_service.chat_bot(prompt)
+        if response is not None:
+            return Response({"message": response})
+        else:
+            return Response({"error": "somethign went wrong"}, status=500)
+    else:
+        return Response({"error": "somethign went wrong"}, status=400)
+    
+
     
 
 from rest_framework import status
