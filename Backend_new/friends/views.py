@@ -36,10 +36,11 @@ def list_received_requests(request):
 @api_view(['POST'])
 def accept_friend_request(request):
     request_id = request.data.get('request_id')
+    username = request.data.get('username')
     friend_request = get_object_or_404(FriendRequest, id=request_id)
 
     # Verify that the current user is the receiver of the friend request
-    if request.user != friend_request.receiver:
+    if username != str(friend_request.receiver):
         return Response({'message': 'You do not have permission to accept this friend request!'}, 
                         status=status.HTTP_403_FORBIDDEN)
 

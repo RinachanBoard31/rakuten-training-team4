@@ -67,6 +67,8 @@ export const chatMessageRequest = async (chat: string) => {
   }
 }
 
+/*** Favorite Items ***/
+
 export const saveFavoriteItem = async (username: string, item: any) => {
   const item_code = "testCode";
   const item_name = item.itemName;
@@ -119,4 +121,35 @@ export const deleteFavoriteItem = async (username: string, itemUrl: string) => {
     console.error('Error deleting favorite item:', error);
     return null;
   }
+};
+
+/*** Friend List ***/
+export const fetchFriendList = async (username: string) => {
+  const response = await axios.get(`${BACKEND_BASE_URL}/friends/list/?username=${username}`);
+  return response.data;
+};
+
+export const removeFriend = async (username: string, friend: string) => {
+  const response = await axios.post(`${BACKEND_BASE_URL}/friends/remove/`, { user: username, friend });
+  return response.data;
+};
+
+export const fetchReceivedRequests = async (username: string) => {
+  const response = await axios.get(`${BACKEND_BASE_URL}/friends/list_received_requests/?username=${username}`);
+  return response.data;
+};
+
+export const acceptFriendRequest = async (requestId: number, username: string) => {
+  const response = await axios.post(`${BACKEND_BASE_URL}/friends/accept_request/`, { request_id: requestId, username: username });
+  return response.data;
+};
+
+export const rejectFriendRequest = async (requestId: number) => {
+  const response = await axios.post(`${BACKEND_BASE_URL}/friends/reject_request/`, { request_id: requestId });
+  return response.data;
+};
+
+export const sendFriendRequest = async (sender: string, receiver: string) => {
+  const response = await axios.post(`${BACKEND_BASE_URL}/friends/send_request/`, { sender, receiver });
+  return response.data;
 };
