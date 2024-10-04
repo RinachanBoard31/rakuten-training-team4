@@ -128,14 +128,13 @@ const Home: React.FC = () => {
             component="div"
             color="#c450a0"
             sx={{
-              fontFamily: "Roboto, sans-serif",
               background: "linear-gradient(to right, #ff7e5f, #feb47b)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               textAlign: 'center',
             }}
           >
-            Rakuten Z for 若者
+            Rakuten Z for 20s
           </Typography>
         </Box>
       </Fade>
