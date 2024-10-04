@@ -66,7 +66,7 @@ const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick,  setItems, 
 
         {isAnswering ? (
           <Box sx={{ display: 'flex', justifyContent: 'center',  marginRight: 2 }}>
-            <Button onClick={() => handleAnswering(false)}>もう一度聞く</Button>
+            <Button onClick={() => handleAnswering(false)}>Z Pandaと会話を続ける</Button>
             <PandaWithSpeechBubble speechText={chatResponse} handlePandaClick={handlePandaClick} isAnswering/>
           </Box>
         ): (

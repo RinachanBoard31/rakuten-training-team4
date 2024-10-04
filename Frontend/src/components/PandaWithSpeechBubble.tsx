@@ -14,7 +14,7 @@ const PandaWithSpeechBubble: React.FC<PandaWithSpeechBubbleProps> = ({ speechTex
       {/* パンダのアイコン */}
       <Box>
         <img
-          src="/assets/panda.jpg" // public/assets 配下の画像パスに置き換えてください
+          src="/assets/zpanda.jpg" // public/assets 配下の画像パスに置き換えてください
           alt="Panda Icon"
           style={{
             width: '80px',

@@ -3,6 +3,7 @@ import { Box, TextField, InputAdornment, Tooltip, IconButton, Typography, Button
 import SearchIcon from '@mui/icons-material/Search';
 import ChatPandaAI from './ChatPandaAI';
 import { Item } from '../pages/Home';
+import { Troubleshoot } from '@mui/icons-material';
 
 interface SearchBoxAndAIProps {
   handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -11,7 +12,7 @@ interface SearchBoxAndAIProps {
 
 const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch , setItems}) => {
     const [enableAichat, setEnableAichat] = useState<boolean>(false);
-    const [enableBackendAI, setEnableBackendAI] = useState<boolean>(false);
+    const [enableBackendAI, setEnableBackendAI] = useState<boolean>(true);
     const handlePandaClick = () => {
         console.log('Panda clicked');
         if (enableAichat) {
@@ -30,26 +31,13 @@ const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch , setItems
         }
     }
 
-    return (enableAichat ? (
+    return (
+        enableAichat ? (
         <Box>
-            {/* delete this function in demo */}
-            {/* tokenの上限があるので、デモ用に一時的にAIにリクエストを送らないようにするための機能です． */}
-            {enableBackendAI ? (
-                <Button variant="contained" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={handleEnableBackendAI}>Backend AI Enabled</Button>
-            ) : (
-                <Button variant="contained" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={handleEnableBackendAI}>Backend AI Disabled</Button>
-            )}
             <ChatPandaAI handlePandaClick={handlePandaClick} setItems={setItems} enableBackendAI={enableBackendAI}/>
         </Box>
-    ) : (
+    ) : ( 
         <Box>
-            {/* delete this function in demo */}
-            {/* tokenの上限があるので、デモ用に一時的にAIにリクエストを送らないようにするための機能です． */}
-            {enableBackendAI ? (
-                <Button variant="contained" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={handleEnableBackendAI}>Backend AI Enabled</Button>
-            ) : (
-                <Button variant="contained" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={handleEnableBackendAI}>Backend AI Disabled</Button>
-            )}
             <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>
                 <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>
                     <Tooltip
@@ -66,7 +54,7 @@ const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch , setItems
                     >
                         <IconButton onClick={handlePandaClick}>
                         <img
-                            src="/assets/panda.jpg" 
+                            src="/assets/zpanda.jpg" 
                             alt="Panda Icon"
                             style={{
                             width: '80px',
@@ -96,10 +84,8 @@ const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch , setItems
                     </form>
                 </Box>
             </Box>
-
-    </Box>
-    )
-    );
+        </Box>
+    ));
 };
 
 export default SearchBoxAndAI;
