@@ -165,8 +165,9 @@ def chat_message(request):
     if request.method == "POST":
         prompt = request.query_params.get('prompt', '')
 
-        if len(prompt) > 50:
-            return Response({"message": "ごめんね、ぼくまだ7歳だからわからないことあるんだ．．．"}, status=400)
+        if len(prompt) > 80:
+            print("ユーザのプロンプトが80以上を超えています")
+            return Response({"message": "ごめんね、ぼくまだ11   歳だからあんまり文章が多いとわからないことあるんだ．．．"})
         
         response = chat_service.chat_bot(prompt)
         if response is not None:

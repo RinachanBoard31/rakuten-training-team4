@@ -13,14 +13,14 @@ RAKUTEN_APPLICATION_ID="1026980619997350105"
 # OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 # RAKUTEN_APPLICATION_ID = os.getenv('RAKUTEN_APPLICATION_ID')
 
-def search_rakuten_products(keyword, genreId=None, page=1, hits=10, minPrice=None, maxPrice=None):
+def search_rakuten_products(keyword, genreId=None, page=1, hits=None, minPrice=None, maxPrice=None):
 
     url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
     params = {
         'applicationId': RAKUTEN_APPLICATION_ID,
         'keyword': keyword,
         'page': page,
-        'hits': hits,
+        'hits': 10,
         'sort': '-reviewAverage', #reviewAverageで固定
         # 'minPrice': 500,
         # 'maxPrice': 1000,
@@ -33,6 +33,9 @@ def search_rakuten_products(keyword, genreId=None, page=1, hits=10, minPrice=Non
         params['minPrice'] = minPrice
     if maxPrice:
         params['maxPrice'] = maxPrice
+    if hits:
+        params['hits'] = hits
+
 
     try:
         response = requests.get(url, params=params)
@@ -72,15 +75,15 @@ tools = [
                     },
                     "hits": {
                         "type": "integer",
-                        "description": "1ページあたりの取得件数。デフォルトは20。"
+                        "description": "1ページあたりの取得件数。最小は5で最大は30。商品を多く表示させたい場合は20以上"
                     },
                     "min_price": {
                         "type": "integer",
-                        "description": "最低価格"
+                        "description": "最低価格。高めの買い物をしたいときはこの数値を上げる。"
                     },
                     "max_price": {
                         "type": "integer",
-                        "description": "最高価格"
+                        "description": "最高価格。安めの買い物をしたいときはこの数値を下げる。"
                     },
                 },
                 "required": ["keyword"],
@@ -127,7 +130,7 @@ def process_user_prompt(user_prompt):
             keyword = args.get('keyword')
             genreId = args.get('genre_id')
             page = args.get('page', 1)
-            hits = args.get('hits', 10)
+            hits = args.get('hits')
             minPrice = args.get('min_price')
             maxPrice = args.get('max_price')
 
@@ -141,24 +144,26 @@ def function_calling(prompt):
     print("Rakuten Product Search with OpenAI Function Calling")
     print("---------------------------------------------------")
     logger.info("prompt is " + prompt)
+    print("prompt is " + prompt)
 
     user_prompt = prompt
     result = process_user_prompt(user_prompt)
 
     #test
     # result = search_rakuten_products(user_prompt, minPrice=500, maxPrice=2000)
+
     if result:
-        print(f"\n総ヒット数: {result.get('count')}")
-        print(f"ページ数: {result.get('pageCount')}ページ")
-        print("\n検索結果:")
-        for item in result.get('Items', []):
-            item_data = item['Item']
-            print(f"商品名: {item_data.get('itemName')}")
-            print(f"価格: {item_data.get('itemPrice')}円")
-            print(f"URL: {item_data.get('itemUrl')}")
-            if item_data.get('mediumImageUrls'):
-                print(f"画像URL: {item_data.get('mediumImageUrls')[0].get('imageUrl')}")
-            print("-" * 40)
+        # print(f"\n総ヒット数: {result.get('count')}")
+        # print(f"ページ数: {result.get('pageCount')}ページ")
+        # print("\n検索結果:")
+        # for item in result.get('Items', []):
+        #     item_data = item['Item']
+        #     print(f"商品名: {item_data.get('itemName')}")
+        #     print(f"価格: {item_data.get('itemPrice')}円")
+        #     print(f"URL: {item_data.get('itemUrl')}")
+        #     if item_data.get('mediumImageUrls'):
+        #         print(f"画像URL: {item_data.get('mediumImageUrls')[0].get('imageUrl')}")
+        #     print("-" * 40)
         
         return result
     else:
