@@ -54,8 +54,18 @@ const Header = () => {
     handleClose();
   };
 
-  const handleWishList = () => {
+  const handleMyWishlist = () => {
     navigate('/favorites');
+    handleClose();
+  };
+
+  const handleFriendsList = () => {
+    navigate('/friends');
+    handleClose();
+  };
+
+  const handleRequestList = () => {
+    navigate('/friends/requests-list');
     handleClose();
   };
 
@@ -102,10 +112,16 @@ const Header = () => {
         <Box sx={{ flexGrow: 1 }} />
         {isAuthenticated ? (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton
-              onClick={handleMenu}
-              color="inherit"
-            >
+            <Button color="inherit" onClick={handleFriendsList}>
+              Friends
+            </Button>
+            <Button color="inherit" onClick={handleRequestList}>
+              Requests
+            </Button>
+            <Button color="inherit" onClick={handleMyWishlist}>
+              Wishlist
+            </Button>
+            <IconButton onClick={handleMenu} color="inherit">
               <Avatar sx={{ bgcolor: 'primary.main' }}>
                 <AccountCircleIcon />
               </Avatar>
@@ -113,15 +129,10 @@ const Header = () => {
                 variant="body1"
                 sx={{ marginRight: 2, display: { xs: 'none', sm: 'block' } }}
               >
-              {username}
+                {username}
               </Typography>
             </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleWishList}>View Wishlist</MenuItem>
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Box>
