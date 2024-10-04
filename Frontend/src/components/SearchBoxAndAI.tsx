@@ -53,7 +53,7 @@ const SearchBoxAndAI: React.FC<SearchBoxAndAIProps> = ({ handleSearch , setItems
             <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>
                 <Box display="flex" alignItems="center" width="100%" sx={{ position: 'relative' }}>
                     <Tooltip
-                        title="Z panda AIを利用してね！"
+                        title="Z Panda AIを利用してね！"
                         arrow
                         placement="top"
                         open={true} // 常に表示

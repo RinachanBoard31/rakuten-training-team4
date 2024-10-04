@@ -37,7 +37,7 @@ const PandaWithSpeechBubble: React.FC<PandaWithSpeechBubbleProps> = ({ speechTex
             borderRadius: '10px',
             display: 'inline-block', // コンテンツに合わせて幅を調整
             width: 'auto', // 幅を自動調整
-            minWidth: '400px', // 必要に応じて最小幅を設定
+            minWidth: '260px', // 必要に応じて最小幅を設定
             maxWidth: '1000px', // 必要に応じて最大幅を設定
             zIndex: 1,
             wordWrap: 'break-word',

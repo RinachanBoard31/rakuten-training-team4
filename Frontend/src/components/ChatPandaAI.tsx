@@ -53,7 +53,7 @@ const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick,  setItems, 
       if(message.message) {
         setChatResponse(message.message); 
       } else {
-        setChatResponse("ごめんね、ぼくまだ7歳だからわからないことあるんだ．．．");
+        setChatResponse("ごめんね、ぼくまだ11歳だからあんまり文章が長いとわからないことあるんだ．．．");
       }
     } catch (error) {
       console.error(error);
@@ -78,7 +78,7 @@ const ChatPandaAI: React.FC<ChatPandaAIProps> = ({ handlePandaClick,  setItems, 
                 <form onSubmit={(e) => { handleAnswering(true); handleSubmit(e); }} style={{ flexGrow: 1 }}>
                 <TextField
                   name="keyword"
-                  placeholder="Young Panda AIに相談してみよう！"
+                  placeholder="Z Panda AIに相談してみよう！"
                   fullWidth
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
